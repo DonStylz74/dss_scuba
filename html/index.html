@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+  <title>Scuba Oxygen HUD</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="dualGaugeContainer">
+
+  <!-- Left gauge: Oxygen -->
+  <div id="oxygenGauge">
+   <svg viewBox="0 0 100 100">
+    <circle class="bg" cx="50" cy="50" r="45" />
+	<circle class="bar" cx="50" cy="50" r="45" />
+   </svg>
+
+   <div id="oxygenLabel">Oxygen</div>
+   <div id="oxygenText">100%</div>
+  </div>
+
+  <!-- Right gauge: Depth (circular digital) -->
+  <div id="depthGauge">
+   <svg viewBox="0 0 100 100">
+    <circle class="bg" cx="50" cy="50" r="45" />
+    <circle class="depthRing" cx="50" cy="50" r="45" />
+   </svg>
+
+   <div id="depthLabel">Depth</div>
+   <div id="depthText">0m</div>
+  </div>
+  
+</div>
+
+  <script src="app.js"></script>
+</body>
+</html>
