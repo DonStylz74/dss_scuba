@@ -442,6 +442,9 @@ CreateThread(function()
     end
     while true do
         local playerPed = PlayerPedId()
+        local pedModel = GetEntityModel(playerPed)
+        local wearingScuba = isWearingScuba(playerPed, pedModel)
+
 if IsPedSwimmingUnderWater(playerPed) then
     -------------------------------------------------
     -- DEPTH SAFETY + PRESSURE DAMAGE
@@ -449,8 +452,10 @@ if IsPedSwimmingUnderWater(playerPed) then
     handleDeepDiveSafety(playerPed)
     -------------------------------------------------
     -- SCUBA / OXYGEN
+    -- Only process/show the scuba UI when the actual
+    -- scuba clothing component is currently equipped.
     -------------------------------------------------
-    if oxy_tank then
+    if wearingScuba and oxy_tank then
         -------------------------------------------------
         -- OXYGEN AVAILABLE
         -------------------------------------------------
@@ -552,9 +557,9 @@ if IsPedSwimmingUnderWater(playerPed) then
         end
     else
         -------------------------------------------------
-        -- NO ACTIVE OXYGEN TANK
+        -- NO SCUBA GEAR / NO ACTIVE OXYGEN TANK
         -------------------------------------------------
-        updateOxygenGauge(0)
+        hideOxygenGauge()
         SetPedConfigFlag(
             playerPed,
             3,
