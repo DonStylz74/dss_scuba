@@ -107,7 +107,7 @@ RegisterNetEvent('ed_scuba:prixtenuesplongee', function()
 	if not xPlayer then
 		return
 	end
-	local canPay = xPlayer.getMoney() >= Config.refillPrice
+	local canPay = xPlayer.getMoney() >= Config.prixTenuedeplongee
 	if not canPay then
 		return xPlayer.showNotification(locale('no_money'))
 	end
@@ -121,10 +121,41 @@ RegisterNetEvent('ed_scuba:prixpalmesplongee', function()
 	if not xPlayer then
 		return
 	end
-	local canPay = xPlayer.getMoney() >= Config.refillPrice
+	local canPay = xPlayer.getMoney() >= Config.prixpalmesplongee
 	if not canPay then
 		return xPlayer.showNotification(locale('no_money'))
 	end
 	xPlayer.removeMoney(Config.prixpalmesplongee)
 	xPlayer.addInventoryItem(Config.finsItemName, 1)
+end)
+
+local function getSellItemConfig(itemName)
+    for _, sellItem in ipairs(Config.SellItems or {}) do
+        if sellItem.item == itemName then
+            return sellItem
+        end
+    end
+    return nil
+end
+
+RegisterNetEvent('ed_scuba:sellItem', function(itemName)
+    local source = source
+    local xPlayer = ESX.GetPlayerFromId(source)
+    if not xPlayer or type(itemName) ~= 'string' then
+        return
+    end
+
+    local sellItem = getSellItemConfig(itemName)
+    if not sellItem then
+        return
+    end
+
+    local item = xPlayer.getInventoryItem(itemName)
+    if not item or (item.count or 0) < 1 then
+        return xPlayer.showNotification(locale('no_item_to_sell'))
+    end
+
+    xPlayer.removeInventoryItem(itemName, 1)
+    xPlayer.addMoney(sellItem.price)
+    xPlayer.showNotification((locale('item_sold')):format(sellItem.label, Config.Currency, sellItem.price))
 end)

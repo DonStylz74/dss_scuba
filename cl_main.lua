@@ -437,9 +437,7 @@ end
 ---------------------------------------------------------
 
 CreateThread(function()
-    if Config.EnableBlip then
-        CreateBlips()
-    end
+    CreateBlips()
     while true do
         local playerPed = PlayerPedId()
         local pedModel = GetEntityModel(playerPed)

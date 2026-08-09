@@ -131,19 +131,30 @@ function getScubaItemCount(name)
     return ESX.SearchInventory(name, true)
 end
 
-function CreateBlips()
-    for k, v in ipairs(Config.Locations) do
-        local blip = AddBlipForCoord(v.pos.x, v.pos.y, v.pos.z)
-
-        SetBlipSprite(blip, 729)
-        SetBlipScale(blip, 0.5)
-        SetBlipColour(blip, 0)
-        SetBlipAsShortRange(blip, true)
-
-        BeginTextCommandSetBlipName('STRING')
-        AddTextComponentString(Config.BlipsName)
-        EndTextCommandSetBlipName(blip)
+local function CreateLocationBlips(locations, settings)
+    if not settings then
+        return
     end
+
+    for _, location in ipairs(locations or {}) do
+        if location.enableBlip == true then
+            local blip = AddBlipForCoord(location.pos.x, location.pos.y, location.pos.z)
+
+            SetBlipSprite(blip, settings.sprite or 1)
+            SetBlipScale(blip, settings.scale or 0.5)
+            SetBlipColour(blip, settings.colour or 0)
+            SetBlipAsShortRange(blip, settings.shortRange ~= false)
+
+            BeginTextCommandSetBlipName('STRING')
+            AddTextComponentString(settings.name or 'Scuba')
+            EndTextCommandSetBlipName(blip)
+        end
+    end
+end
+
+function CreateBlips()
+    CreateLocationBlips(Config.Location_Shops, Config.ShopBlips)
+    CreateLocationBlips(Config.Location_Refills, Config.RefillBlips)
 end
 
 
@@ -153,28 +164,143 @@ function CreatePedAtLocation(location)
     while not HasModelLoaded(GetHashKey(location.model)) do
         Wait(1)
     end
+
     local pedHandle = CreatePed(4, GetHashKey(location.model), location.pos.x, location.pos.y, location.pos.z, location.heading, false, true)
     SetEntityAsMissionEntity(pedHandle, true, true)
     SetBlockingOfNonTemporaryEvents(pedHandle, true)
     SetEntityInvincible(pedHandle, true)
     FreezeEntityPosition(pedHandle, true)
+
     exports.ox_target:addLocalEntity(pedHandle, {
         {
-            name = 'ox_target:openMenu',
+            name = 'dss_scuba:openShop',
             label = locale('name_menu'),
-            icon = 'fa-solid fa-bars',
+            icon = 'fa-solid fa-store',
             onSelect = function()
-                lib.showContext('seapanda_menu') -- Fonction pour ouvrir le menu
+                lib.showContext('seapanda_menu')
             end,
         },
     })
+
+    SetModelAsNoLongerNeeded(GetHashKey(location.model))
     return pedHandle
 end
 
-for _, location in ipairs(Config.Locations) do
-    local pedHandle = CreatePedAtLocation(location)
-    table.insert(pedHandles, pedHandle)
+function CreateRefillProp(location, index)
+    if not location or not location.model or not location.pos then
+        return nil
+    end
+
+    local model = GetHashKey(location.model)
+    RequestModel(model)
+    while not HasModelLoaded(model) do
+        Wait(1)
+    end
+
+    local propHandle = CreateObject(model, location.pos.x, location.pos.y, location.pos.z, false, false, false)
+    SetEntityHeading(propHandle, location.heading or 0.0)
+    FreezeEntityPosition(propHandle, true)
+    SetEntityAsMissionEntity(propHandle, true, true)
+
+    exports.ox_target:addLocalEntity(propHandle, {
+        {
+            name = ('dss_scuba:oxygenRefill:%s'):format(index),
+            label = locale('oxygen_tank'),
+            icon = 'fa-solid fa-gauge-high',
+            distance = 2.0,
+            onSelect = function()
+                local result = lib.alertDialog({
+                    header = locale('confirmation'),
+                    content = (locale('oxygen_refill_confirm')):format(Config.Currency, Config.refillPrice),
+                    centered = true,
+                    cancel = true,
+                    labels = {
+                        confirm = locale('yes'),
+                        cancel = locale('no')
+                    }
+                })
+
+                if result == 'confirm' then
+                    TriggerEvent('ed_scuba:oxygenHandle', 'pay')
+                else
+                    ESX.ShowNotification(locale('refill_cancel'))
+                end
+            end,
+        },
+    })
+
+    SetModelAsNoLongerNeeded(model)
+    return propHandle
 end
+
+local refillPropHandles = {}
+
+for _, location in ipairs(Config.Location_Shops or {}) do
+    local pedHandle = CreatePedAtLocation(location)
+    if pedHandle then
+        table.insert(pedHandles, pedHandle)
+    end
+end
+
+for index, location in ipairs(Config.Location_Refills or {}) do
+    local propHandle = CreateRefillProp(location, index)
+    if propHandle then
+        table.insert(refillPropHandles, propHandle)
+    end
+end
+
+local function confirmPurchase(itemLabel, price, serverEvent)
+    local result = lib.alertDialog({
+        header = locale('confirmation'),
+        content = (locale('purchase_confirm')):format(itemLabel, Config.Currency, price),
+        centered = true,
+        cancel = true,
+        labels = {
+            confirm = locale('yes'),
+            cancel = locale('no')
+        }
+    })
+
+    if result == 'confirm' then
+        TriggerServerEvent(serverEvent)
+    else
+        ESX.ShowNotification(locale('purchase_cancel'))
+    end
+end
+
+local sellOptions = {}
+for _, sellItem in ipairs(Config.SellItems or {}) do
+    sellOptions[#sellOptions + 1] = {
+        title = sellItem.label,
+        description = (locale('sell_item_desc')):format(Config.Currency, sellItem.price),
+        icon = 'fa-solid fa-dollar-sign',
+        onSelect = function()
+            local result = lib.alertDialog({
+                header = locale('sell_confirmation'),
+                content = (locale('sell_confirm')):format(sellItem.label, Config.Currency, sellItem.price),
+                centered = true,
+                cancel = true,
+                labels = {
+                    confirm = locale('yes'),
+                    cancel = locale('no')
+                }
+            })
+
+            if result == 'confirm' then
+                TriggerServerEvent('ed_scuba:sellItem', sellItem.item)
+            else
+                ESX.ShowNotification(locale('sale_cancel'))
+            end
+        end
+    }
+end
+
+lib.registerContext({
+    id = 'seapanda_sell_menu',
+    title = locale('sell_menu'),
+    menu = 'seapanda_menu',
+    options = sellOptions
+})
 
 lib.registerContext({
     id = 'seapanda_menu',
@@ -183,52 +309,42 @@ lib.registerContext({
         {
             title = locale('diving_gear'),
             description = locale('diving_gear_desc'),
+            icon = 'fa-solid fa-mask-face',
             onSelect = function()
-                local prixTenuedeplongee = Config.prixTenuedeplongee
-                local confirm = lib.inputDialog(locale('confirmation'), {
-                    {type = 'input', label = 'Price : ' ..prixTenuedeplongee.. "$ " ..locale('yesorno'), required = true},
-                })
-                if confirm and confirm[1] and (confirm[1]:lower() == string.lower(locale('yes'))) then
-                    TriggerServerEvent('ed_scuba:prixtenuesplongee')
-                else
-                    ESX.ShowNotification(locale('purchase_cancel'))
-                    lib.showContext('seapanda_menu')
-                end             
+                confirmPurchase(locale('diving_gear'), Config.prixTenuedeplongee, 'ed_scuba:prixtenuesplongee')
             end
         },
         {
             title = locale('diving_fins'),
             description = locale('diving_fins_desc'),
+            icon = 'fa-solid fa-person-swimming',
             onSelect = function()
-                local prixpalmesplongee = Config.prixpalmesplongee
-                local confirm = lib.inputDialog(locale('confirmation'), {
-                    {type = 'input', label = 'Price : ' ..prixpalmesplongee.. "$ " ..locale('yesorno'), required = true},
-                })
-                if confirm and confirm[1] and (confirm[1]:lower() == string.lower(locale('yes'))) then
-                    TriggerServerEvent('ed_scuba:prixpalmesplongee')
-                else
-                    ESX.ShowNotification(locale('purchase_cancel'))
-                    lib.showContext('seapanda_menu')
-                end             
+                confirmPurchase(locale('diving_fins'), Config.prixpalmesplongee, 'ed_scuba:prixpalmesplongee')
             end
-            
         },
         {
-            title = locale('oxygen_tank'),
-            description = locale('oxygen_tank_desc'),
-            onSelect = function()
-                local prixOxygene = Config.refillPrice
-                local confirm = lib.inputDialog(locale('confirmation'), {
-                    {type = 'input', label = 'Price : ' ..prixOxygene.. "$ " ..locale('yesorno'), required = true},
-                })
-                if confirm and confirm[1] and (confirm[1]:lower() == string.lower(locale('yes'))) then
-                    TriggerEvent('ed_scuba:oxygenHandle', 'pay')
-                else
-                    ESX.ShowNotification(locale('purchase_cancel'))
-                    lib.showContext('seapanda_menu')
-                end             
-            end
+            title = locale('sell_menu'),
+            description = locale('sell_menu_desc'),
+            icon = 'fa-solid fa-hand-holding-dollar',
+            menu = 'seapanda_sell_menu'
         }
     }
 })
-    
+
+AddEventHandler('onResourceStop', function(resourceName)
+    if resourceName ~= GetCurrentResourceName() then
+        return
+    end
+
+    for _, pedHandle in ipairs(pedHandles) do
+        if DoesEntityExist(pedHandle) then
+            DeleteEntity(pedHandle)
+        end
+    end
+
+    for _, propHandle in ipairs(refillPropHandles) do
+        if DoesEntityExist(propHandle) then
+            DeleteEntity(propHandle)
+        end
+    end
+end)
