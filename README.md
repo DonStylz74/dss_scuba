@@ -48,7 +48,7 @@ DSS Scuba keeps the original scuba equipment and oxygen system while adding a re
 
 
 <p align="center">
-<a href="https://github.com/ShaanCoding">📱 Visit this Project</a>
+<a href="https://github.com/DonStylz74">📱 Visit this Project</a>
 </p>
 
 ## Getting Started
