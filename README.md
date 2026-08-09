@@ -43,9 +43,6 @@ DSS Scuba keeps the original scuba equipment and oxygen system while adding a re
         <tr><td>Per-location blip enable/disable</td><td>❌</td><td>✅</td></tr>
         <tr><td>Sell scuba equipment to shop</td><td>❌</td><td>✅</td></tr>
         <tr><td>Configurable sell items/prices</td><td>❌</td><td>✅</td></tr>
-        <tr><td>Yes / No purchase buttons</td><td>❌</td><td>✅</td></tr>
-        <tr><td>Yes / No refill confirmation</td><td>❌</td><td>✅</td></tr>
-        <tr><td>Yes / No sell confirmation</td><td>❌</td><td>✅</td></tr>
     </tbody>
 </table></p>
 
