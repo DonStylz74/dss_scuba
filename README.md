@@ -166,4 +166,3 @@ Use this space to list resources you find helpful and would like to give credit 
 
 
 - [**wobozkyng** - Original Code](https://github.com/wobozkyng/esx_scuba)
-- [**Edmondio** - Updated Code](https://github.com/Edmondio/ed_scuba)
