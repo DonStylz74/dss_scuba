@@ -1,106 +1,172 @@
 
+![Awesome ReadME](https://imgur.com/ayFLJGW.png)
+
 # DSS Scuba
 
-Enhance your FiveM server with an immersive diving experience tailored for the ESX framework. This script provides a full diving outfit and the ability to interact with underwater items, enriching your role-playing capabilities. It's easy to integrate, customize, and supports multiple languages.
+An expanded and modernised scuba diving resource for FiveM ESX, based on the original ed_scuba resource by Edmondio.
+
+DSS Scuba keeps the original scuba equipment and oxygen system while adding a redesigned underwater experience, improved dive safety, expanded scuba shop functionality, dedicated oxygen refill stations, configurable location blips, and a cleaner purchase/sell workflow.
+
+<h1 align="center" style="font-weight: bold;">FEATURES</h1>
+
+
+<p align="center"><table border="1" cellspacing="0" cellpadding="6">
+    <thead>
+        <tr>
+            <th>Feature</th>
+            <th>Original ed_scuba</th>
+            <th>DSS Scuba</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td>Scuba suit / oxygen tank</td><td>✅</td><td>✅</td></tr>
+        <tr><td>Diving fins</td><td>✅</td><td>✅</td></tr>
+        <tr><td>Scuba mask</td><td>✅</td><td>✅</td></tr>
+        <tr><td>Scuba flashlight</td><td>✅</td><td>✅</td></tr>
+        <tr><td>ESX support</td><td>✅</td><td>✅</td></tr>
+        <tr><td>ox_inventory support</td><td>✅</td><td>✅</td></tr>
+        <tr><td>Oxygen item metadata</td><td>✅</td><td>✅</td></tr>
+        <tr><td>Configurable equipment prices</td><td>✅</td><td>✅</td></tr>
+        <tr><td>Shop NPCs</td><td>✅</td><td>✅</td></tr>
+        <tr><td>Paid oxygen refills</td><td>✅</td><td>✅</td></tr>
+        <tr><td>Localisation</td><td>✅</td><td>✅</td></tr>
+        <tr><td>Custom oxygen HUD</td><td>❌</td><td>✅</td></tr>
+        <tr><td>Live depth display</td><td>❌</td><td>✅</td></tr>
+        <tr><td>Colour-coded oxygen warnings</td><td>❌</td><td>✅</td></tr>
+        <tr><td>Audible low-oxygen warnings</td><td>Basic</td><td>Expanded</td></tr>
+        <tr><td>Depth warning system</td><td>❌</td><td>✅</td></tr>
+        <tr><td>Pressure damage</td><td>❌</td><td>✅</td></tr>
+        <tr><td>Maximum depth protection</td><td>❌</td><td>✅</td></tr>
+        <tr><td>Dedicated oxygen refill props</td><td>❌</td><td>✅</td></tr>
+        <tr><td>Shops/refills at independent locations</td><td>❌</td><td>✅</td></tr>
+        <tr><td>Separate shop/refill blip styling</td><td>❌</td><td>✅</td></tr>
+        <tr><td>Per-location blip enable/disable</td><td>❌</td><td>✅</td></tr>
+        <tr><td>Sell scuba equipment to shop</td><td>❌</td><td>✅</td></tr>
+        <tr><td>Configurable sell items/prices</td><td>❌</td><td>✅</td></tr>
+        <tr><td>Yes / No purchase buttons</td><td>❌</td><td>✅</td></tr>
+        <tr><td>Yes / No refill confirmation</td><td>❌</td><td>✅</td></tr>
+        <tr><td>Yes / No sell confirmation</td><td>❌</td><td>✅</td></tr>
+    </tbody>
+</table></p>
+
+
+<p align="center">
+<a href="https://github.com/ShaanCoding">📱 Visit this Project</a>
+</p>
 
 ## Getting Started
 
-**DSS Scuba** keeps the original ed_scuba diving functionality while adding a custom underwater HUD, oxygen & depth monitoring (audio and visual), configurable depth warnings, deep-dive pressure damage, and maximum-depth protection.
-
-## Original Scuba Features
-- Complete Diving Outfit: Includes a diving suit, mask, fins, and oxygen tank.
-- Underwater Item Interaction: Discover and interact with various underwater items.
-- Easy Integration: Seamless addition to your existing ESX setup.
-- Customizable: Adjust settings in config.lua to suit your server.
-- Localization: Supports multiple languages via locale files.
-
-## New Features
-- Custom dual-gauge underwater HUD.
-- Configourable display type, UI or ox_lib Nofitications
-- Coloured visual & Audiable Warnings for tank oxygen and depth
+DSS Scuba adds a custom underwater HUD that is displayed while the player is underwater and actively using scuba equipment.
 
 The HUD displays:
-- Displays oxygen percentage 
-- Displays current diving depth in meters
 
-Oxygen coloured warning status
-- Above 25% White
-- Below 25% Yellow
-- Below 10% Red
-
-Depth coloured warning status 
-- Above to -100m	Normal
-- -100m to -174m	Yellow warning
-- -175m to -184m	Red warning
-
-## Oxygen Sound Warnings:
-| Oxygen | Warning | Sound |
-|--------|---------|-------|
-|75 & 50%| Normal Oxygen | 1 warning beep |
-|  15%  | Low Oxygen | 3 warning beeps |
-|  10%  | Critical Oxygen | 4 warning beeps |
-|  5%   | Extreme Oxygen | 5 rapid warning beeps |
-|  0%   | Oxygen Depleted | Scuba breathing assistance stops |
-
-## Maximum Depth & Damage System
-- -185m to -189m	Pressure damage begins - 1 HP/sec
-- -190m to -194m	Higher pressure damage - 3 HP/sec
-- -195m to -198m	Max pressure damage - 5 HP/sec
-- -198m  -- Maximum depth reached - Player is pushed upward
+- Current oxygen percentage
+- Current diving depth in metres
+- Colour-based oxygen warnings
+- Colour-based depth warnings
 
 
-### Preview 
-<a href="https://www.youtube.com/watch?v=B5HTFTvI4-s"> https://www.youtube.com/watch?v=B5HTFTvI4-s </a>
+Oxygen Warning System
 
-### Prerequisites
+- Above 25%	Normal
+- 25% and below	Warning
+- 10% and below	Critical
 
-This is an example of how to list things you need to use the software and how to install them.
+Audible Oxygen Warnings
+- 75% / 50% / 25%	Single warning beep
+- 15%	3 warning beeps
+- 10%	4 warning beeps
+- 5%	5 rapid warning beeps
+- 0%	Scuba breathing assistance ends
 
-- ESX
-- ox_inventory
+Depth Monitoring & Dive Safety
+Players who dive too deep begin taking pressure damage.
+
+Diving Depth	Damage
+- -185m to -189m	1 HP per second
+- -190m to -194m	3 HP per second
+- -195m and deeper	5 HP per second
+
+
+
+<h2 id="layout">🎨 Layout</h2>
+
+<p align="center">
+
+<img src="https://imgur.com/CK9OmDO.png" alt="Gauge Warning Diagram" width="400px">
+</p>
+
+<h3>Prerequisites</h3>
+
+DSS Scuba requires:
+
+- ESX Legacy
 - ox_lib
+- ox_target
+- ox_inventory
+### Installation
 
-### Installing
+1. Place dss_scuba inside your FiveM resources folder.
+2. Ensure the required dependencies are installed and started.
+3. Add the resource to your server configuration:
+- ensure ox_lib
+- ensure ox_target
+- ensure ox_inventory
+- ensure dss_scuba
 
-1. Download the Script
-2. Place the Script in your ressources folder
-4. Edit config and locales if you want
-5. Enjoy
-6. Add this item in items.lua for ox inventory
+4. Add the scuba items to your ox_inventory items configuration.
 
-		['scuba_set'] = {
-			label = 'Scuba Set',
-			weight = 1000,
-			description = 'Diving equipment, longer underwater',
-			stack = false,
-			client = {
-				export = 'dss_scuba.wear'
-			}
-		},
-		['scuba_fins'] = {
-			label = 'Scuba Fins',
-			weight = 250,
-			description = 'Diving equipment, swimming assitance',
-			stack = false,
-			client = {
-				export = 'dss_scuba.wear'
-			}
-		},
+Example:
+```yaml
+['scuba_set'] = {
+    label = 'Scuba Set',
+    weight = 1000,
+    description = 'Diving equipment, longer underwater',
+    stack = false,
+    client = {
+        export = 'dss_scuba.wear'
+    }
+},
+
+['scuba_fins'] = {
+    label = 'Scuba Fins',
+    weight = 250,
+    description = 'Diving equipment, swimming assistance',
+    stack = false,
+    client = {
+        export = 'dss_scuba.wear'
+    }
+},
+```
+5. Configure your shop locations:
+```yaml
+Config.Location_Shops = {
+    -- Add scuba stores here
+}
+```
+6. Configure your oxygen refill locations:
+```yaml
+Config.Location_Refills = {
+    -- Add oxygen refill stations here
+}
+```
+7. Configure shop prices, sell prices, refill price and blip settings.
+8. Restart the resource or server.
 
 ## Authors
 
-See also the list of
-
-- **Don Stylz** - _Provided README Template_ - [Donz Skriptz](https://github.com/DonStylz74)
+- **Don Stylz** - [Don_Stylz74](https://github.com/DonStylz74)
 
 
 ## License
 
-This project is licensed under the [CC0 1.0 Universal](LICENSE.md)
-Creative Commons License - see the [LICENSE.md](LICENSE.md) file for
-details
+Review the LICENSE file included with the resource for the licensing terms that apply to this version.
 
+Because DSS Scuba is derived from an existing project, retain the appropriate original copyright, licence notices and attribution where required.
 ## Acknowledgments
 
-[wobozkyng](https://github.com/wobozkyng/esx_scuba) - Original ed_scuba Source code
+Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
 
+
+- [**wobozkyng** - Original Code](https://github.com/wobozkyng/esx_scuba)
+- [**Edmondio** - Updated Code](https://github.com/Edmondio/ed_scuba)
