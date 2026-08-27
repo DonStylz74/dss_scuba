@@ -40,7 +40,7 @@ Config.femaleScubaMaskVariation = 28
 Config.maleSwimFins = 67
 Config.femaleSwimFins = 70
 
-Config.fulltank = 140 -- full oxygen tank capacity, measure duration in seconds
+Config.fulltank = 720 -- full oxygen tank capacity, measure duration in seconds
 
 Config.scubalightKeybind = 'H' -- default keybind to switch scuba flashlight on/off
 Config.refillCommand = 'oxyrefill' -- command to manually refill oxygen tank capacity
@@ -56,17 +56,17 @@ Config.drop_to_reset = false -- need to drop scuba or fins to put off from ped
 -- Set enableBlip = true/false for each individual shop.
 Config.Location_Shops = {
     {
-        pos = vector3(-1261.7573, -1434.0114, 4.347-1),
-        heading = 126.742,
+        pos = vector3(-1338.3289, -1261.0431, 3.8950),
+        heading = 24.265,
         model = 'a_m_y_jetski_01',
         enableBlip = true,
     }, -- Vespucci Beach
     {
-        pos = vector3(1321.45, 4314.41, 37.333),
-        heading = 78.940,
+        pos = vector3(1561.7301, 3801.2632, 33.418),
+        heading = 210.725,
         model = 'a_m_y_jetski_01',
         enableBlip = true,
-    }, -- Grapeseed
+    }, -- Sandyshores
     {
         pos = vector3(-1601.5463, 5197.9375, 4.3632-1),
         heading = 298.2253,
@@ -94,34 +94,34 @@ Config.Location_Shops = {
 -- Set enableBlip = true/false for each individual refill point.
 Config.Location_Refills = {
     {
-        pos = vector3(-1261.08, -1435.07, 3.347),
-        heading = 35.552,
+        pos = vector3(-1335.45, -1260.52, 3.895),
+        heading = 286.989,
         model = 'prop_compressor_03',
-        enableBlip = true,
+        enableBlip = false,
     }, -- Vespucci Beach
     {
-        pos = vector3(1321.26, 4315.84, 37.150),
-        heading = 347.177,
+        pos = vector3(1556.0540, 3800.2668, 33.435),
+        heading = 21.879,
         model = 'prop_compressor_03',
-        enableBlip = true,
+        enableBlip = false,
     }, -- Grapeseed
     {
         pos = vector3(-1602.06, 5199.80, 3.363),
         heading = 324.166,
         model = 'prop_compressor_03',
-        enableBlip = true,
+        enableBlip = false,
     }, -- Paleto Cove
     {
         pos = vector3(3820.63, 4483.32, 4.992),
         heading = 24.153,
         model = 'prop_compressor_03',
-        enableBlip = true,
+        enableBlip = false,
     }, -- San Chianski Mtn
     {
         pos = vector3(-3424.61, 978.68, 7.346),
         heading = 355.178,
         model = 'prop_compressor_03',
-        enableBlip = true,
+        enableBlip = false,
     }, -- Chumash
 }
 

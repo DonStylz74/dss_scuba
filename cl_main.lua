@@ -180,7 +180,8 @@ RegisterNetEvent('ed_scuba:oxygenHandle', function(type, value)
     local playerPed = PlayerPedId()
     local pedModel = GetEntityModel(playerPed)
     if not isWearingScuba(playerPed, pedModel) then
-        lib.showContext('seapanda_menu')
+        -- Oxygen actions (refill/check/admin refill) must never open the dive shop.
+        -- The dive shop menu is opened exclusively through the dive shop NPC target.
         return sendnotification(locale('not_equipped'))
     end
 
