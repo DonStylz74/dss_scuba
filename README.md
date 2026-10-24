@@ -160,13 +160,11 @@ Config.Location_Refills = {
 
 ## License
 
-Review the LICENSE file included with the resource for the licensing terms that apply to this version.
-
 Because DSS Scuba is derived from an existing project, retain the appropriate original copyright, licence notices and attribution where required.
+
 ## Acknowledgments
 
-Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
-
+This resource is a heavily modified version of the original esx_scuba and retains credit to the original author
 
 - [**wobozkyng** - Original Code](https://github.com/wobozkyng/esx_scuba)
 - [**Edmondio** - Updated Code](https://github.com/Edmondio/ed_scuba)
